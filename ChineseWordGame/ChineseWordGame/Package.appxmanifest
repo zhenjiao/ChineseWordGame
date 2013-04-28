@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
+  <Identity Name="64646ZhenJiao.49825EBFEB52A" Publisher="CN=E2D6D5DB-9173-4616-94CE-D8D8B5593735" Version="1.0.1.3" />
+  <Properties>
+    <DisplayName>错别字大考验</DisplayName>
+    <PublisherDisplayName>Zhen Jiao</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+  <Prerequisites>
+    <OSMinVersion>6.2.1</OSMinVersion>
+    <OSMaxVersionTested>6.2.1</OSMaxVersionTested>
+  </Prerequisites>
+  <Resources>
+    <Resource Language="x-generate" />
+  </Resources>
+  <Applications>
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="ChineseWordGame.App">
+      <VisualElements DisplayName="错别字大考验" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="错别字大考验" ForegroundText="light" BackgroundColor="#012640">
+        <DefaultTile ShowName="allLogos" />
+        <SplashScreen Image="Assets\splashScreen.png" />
+      </VisualElements>
+    </Application>
+  </Applications>
+</Package>

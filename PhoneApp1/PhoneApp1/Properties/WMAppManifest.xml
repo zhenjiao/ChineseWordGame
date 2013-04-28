@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.1">
+  <App xmlns="" ProductID="{1f1de084-9c3e-4edb-9d5a-5ca685d98f82}" Title="错别字大考验" RuntimeType="Silverlight" Version="1.1.0.0" Genre="apps.normal" Author="Zhen Jiao" Description="这是一款考验你的语文基本功的小游戏，需要你快速地从读音或字形相近的文字中选择正确的结果以组成词组。它可以让你体验到中文的博大精深，也可以让你学习娱乐两不误。" Publisher="Zhen Jiao" BitsPerPixel="16">
+    <IconPath IsRelative="true" IsResource="false">ApplicationIcon.png</IconPath>
+    <Capabilities>
+    </Capabilities>
+    <Tasks>
+      <DefaultTask Name="_default" NavigationPage="MainPage.xaml" />
+    </Tasks>
+    <Tokens>
+      <PrimaryToken TokenID="ChineseWordGameToken" TaskName="_default">
+        <TemplateType5>
+          <BackgroundImageURI IsRelative="true" IsResource="false">Assets\Logo.png</BackgroundImageURI>
+          <Count>0</Count>
+          <Title>错别字大考验</Title>
+        </TemplateType5>
+      </PrimaryToken>
+    </Tokens>
+  </App>
+</Deployment>
