@@ -93,6 +93,16 @@ namespace ChineseWordGame {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] next {
+            get {
+                object obj = ResourceManager.GetObject("next", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] night {
             get {
                 object obj = ResourceManager.GetObject("night", resourceCulture);
@@ -106,6 +116,36 @@ namespace ChineseWordGame {
         internal static byte[] night_vertical {
             get {
                 object obj = ResourceManager.GetObject("night_vertical", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] prev {
+            get {
+                object obj = ResourceManager.GetObject("prev", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] replay {
+            get {
+                object obj = ResourceManager.GetObject("replay", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] replayError {
+            get {
+                object obj = ResourceManager.GetObject("replayError", resourceCulture);
                 return ((byte[])(obj));
             }
         }

@@ -16,6 +16,7 @@ using System.Windows.Resources;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using ChineseWordGame.Common;
+using ChineseWordGame.Questions;
 using Microsoft.Phone.Controls;
 
 namespace ChineseWordGame
@@ -35,6 +36,8 @@ namespace ChineseWordGame
 
         private const string QuestionPrefixFormat = "第{0}题：";
         private const string TitleFormat = "关： 至少答对{1}题";
+        private const string ReplayTitle = "关： 题目回看模式";
+        private const string ReplayErrorTitle = "关： 错题回看模式";
         private const string LastLevelTitle = "关： 最后一关，加油";
         private const string LevelUpTitle = "关： 恭喜过关，请进入下一关";
         private const string TrueAnswerImage = "/PhoneApp1;component/assets/true.jpg";
@@ -75,6 +78,11 @@ namespace ChineseWordGame
             InitTimerImages();
             InitScoreImages();
             InitAnswerButtions();
+            if (Global.PlayMode == PlayMode.Replay)
+            {
+                Start.Visibility = Visibility.Collapsed;
+                StartReplay();
+            }
         }
 
         private void HideControls()
@@ -95,6 +103,9 @@ namespace ChineseWordGame
             AnswerB.Visibility = Visibility.Collapsed;
             AnswerC.Visibility = Visibility.Collapsed;
             AnswerD.Visibility = Visibility.Collapsed;
+
+            Prev.Visibility = Visibility.Collapsed;
+            Next.Visibility = Visibility.Collapsed;
         }
 
         private void ShowControls()
@@ -172,9 +183,9 @@ namespace ChineseWordGame
         {
             m_waitTimer.Stop();
             if (m_disabledButton != null)
-                m_disabledButton.IsEnabled = true;
+                m_disabledButton.Foreground = new SolidColorBrush(Colors.White);
 
-            if (m_currentQuestionIndex < 10)
+            if (m_currentQuestionIndex < Constants.QuestionPerLevel)
             {
                 ShowNextQuestion();
                 m_isCheckingAnswer = false;
@@ -207,6 +218,7 @@ namespace ChineseWordGame
             m_timerIntervalInLevels[5] = 60;
             m_timerIntervalInLevels[6] = 50;
             m_timerIntervalInLevels[7] = 40;
+
         }
 
         private void InitAnswerButtions()
@@ -233,7 +245,7 @@ namespace ChineseWordGame
 
         private void InitScoreImages()
         {
-            m_scoreImages = new Image[10];
+            m_scoreImages = new Image[Constants.QuestionPerLevel];
             m_scoreImages[0] = Score1;
             m_scoreImages[1] = Score2;
             m_scoreImages[2] = Score3;
@@ -250,6 +262,7 @@ namespace ChineseWordGame
         private void ShowNextQuestion()
         {
             m_currentQuestion = Questions.QuestionManager.Instance.GetRandomCombinedQuestion();
+
             m_currentQuestionIndex++;
             QuestionText.Text = string.Format(QuestionPrefixFormat, m_currentQuestionIndex) + m_currentQuestion.Text;
             AnswerA.Content = "A. " + m_currentQuestion.Answers[0];
@@ -260,9 +273,11 @@ namespace ChineseWordGame
             ResetTimer();
         }
 
-
         private void AnswerButton_Click(object sender, RoutedEventArgs e)
         {
+            if(Global.PlayMode == PlayMode.Replay)
+                return;
+
             int result = -1;
             switch ((sender as Button).Name)
             {
@@ -282,6 +297,31 @@ namespace ChineseWordGame
             CheckAnswer(result);
         }
 
+        private void SetAnswer(int result)
+        {
+            if (result == m_currentQuestion.CorrectAnswer)
+            {
+                score.Text = Global.QuestionAndAnswers[(m_currentLevel - 1) * Constants.QuestionPerLevel + m_currentQuestionIndex - 1].CurrentScore.ToString();
+                Utilities.SetImage(m_scoreImages[m_currentQuestionIndex - 1], Resource1._true);
+            }
+            else
+            {
+                Utilities.SetImage(m_scoreImages[m_currentQuestionIndex - 1], Resource1._false);
+            }
+
+            for (int i = 0; i < m_answerButtons.Count(); i++)
+            {
+                m_answerButtons[i].Foreground = new SolidColorBrush(Colors.White);
+            }
+            m_answerButtons[m_currentQuestion.CorrectAnswer].Foreground = new SolidColorBrush(Colors.Orange);
+            m_answerButtons[m_currentQuestion.CorrectAnswer].Content = "☆." + m_currentQuestion.Answers[m_currentQuestion.CorrectAnswer];
+            if (result != m_currentQuestion.CorrectAnswer)
+            {
+                m_answerButtons[result].Foreground = new SolidColorBrush(Colors.DarkGray);
+                m_answerButtons[result].Content = "△." + m_currentQuestion.Answers[result];
+            }
+        }
+
         private void CheckAnswer(int result)
         {
             if (m_isCheckingAnswer == true)
@@ -298,16 +338,23 @@ namespace ChineseWordGame
                 m_currentScore += Constants.BaseScoreOfQuestion + Constants.BaseScoreOfQuestion * (m_currentLevel - 1) * 5 / 10;
                 //score.Text = "2000";
                 score.Text = m_currentScore.ToString();
-                SetImage(m_scoreImages[m_currentQuestionIndex - 1], Resource1._true);
+                Utilities.SetImage(m_scoreImages[m_currentQuestionIndex - 1], Resource1._true);
             }
             else
             {
                 delayms = 2000;
-                SetImage(m_scoreImages[m_currentQuestionIndex - 1], Resource1._false);
+                Utilities.SetImage(m_scoreImages[m_currentQuestionIndex - 1], Resource1._false);
             }
+            Global.QuestionAndAnswers.Add(
+                new QuestionHistory()
+                    {
+                        Question = m_currentQuestion,
+                        Answer = result,
+                        CurrentScore = m_currentScore,
+                    });
 
-
-            m_answerButtons[m_currentQuestion.CorrectAnswer].IsEnabled = false;
+            m_answerButtons[m_currentQuestion.CorrectAnswer].Foreground = new SolidColorBrush(Colors.Orange);
+            m_answerButtons[m_currentQuestion.CorrectAnswer].Content = "☆." + m_currentQuestion.Answers[m_currentQuestion.CorrectAnswer];
             m_disabledButton = m_answerButtons[m_currentQuestion.CorrectAnswer];
             m_waitTimer.Interval = TimeSpan.FromMilliseconds(delayms);
             m_waitTimer.Start();
@@ -379,15 +426,46 @@ namespace ChineseWordGame
 
         private void levelUp_Click(object sender, RoutedEventArgs e)
         {
-            levelUp.Visibility = Visibility.Collapsed;
-            GotoNextLevel();
-            m_isCheckingAnswer = false;
+            if (Global.PlayMode == PlayMode.Normal)
+            {
+                levelUp.Visibility = Visibility.Collapsed;
+                GotoNextLevel();
+                m_isCheckingAnswer = false;
+            }
+            else
+            {
+                NavigationService.Navigate(new Uri("/EndPage.xaml", UriKind.Relative));
+            }
         }
 
         private void Start_Click(object sender, RoutedEventArgs e)
         {
+            Global.PlayMode = PlayMode.Normal;
+            Global.QuestionAndAnswers = new List<QuestionHistory>();
             ShowControls();
             GotoNextLevel();
+        }
+
+        public void StartReplay()
+        {
+            ShowControls();
+            ReplayQuestionTo(0);
+            if(Global.ReplayMode == ReplayMode.All)
+                pageTitle3.Text = ReplayTitle;
+            else
+            {
+                pageTitle3.Text = ReplayErrorTitle;
+            }
+            levelUp.Content = "返回";
+            levelUp.Visibility = Visibility.Visible;
+            var nextImgBrush = new ImageBrush();
+            Utilities.SetImage(nextImgBrush, Resource1.next);
+            Next.Background = nextImgBrush;
+            var preImageBrush = new ImageBrush();
+            Utilities.SetImage(preImageBrush, Resource1.prev);
+            Prev.Background = preImageBrush;
+            Next.Visibility = Visibility.Visible;
+            Prev.Visibility = Visibility.Visible;
         }
 
         private void AdjustAnswerControls(double imageHeight, double imageWidth, double buttonHeight, double buttonWidth)
@@ -577,21 +655,9 @@ namespace ChineseWordGame
             }
         }
 
-        private void SetImage(Image img, byte[] imageData)
-        {
-            using (MemoryStream ms = new MemoryStream(imageData))
-            {
-                BitmapImage bi = new BitmapImage();
-                bi.SetSource(ms);
-                img.Source = bi;
-                img.Visibility = Visibility.Visible;
-            }
-        }
-
         private void AdjustControlsForFullScreenLandscape()
         {
-            SetImage(backgroundImg, Resource1.night);
-
+            Utilities.SetImage(backgroundImg, Resource1.night);
             
             //Adjust title bar
             score.Width = this.ActualWidth / 12;
@@ -604,6 +670,7 @@ namespace ChineseWordGame
 
             //Adjust image
             ImgBorder.Width = Progress.Width;
+            //Next = ImgBorder.Width - scoreTitle.Width - Next.ActualWidth;
 
             double imageHeight = this.ActualHeight - Progress.Height; //TODO bottomscore.height
             double imageWidth = ImgBorder.Width;
@@ -641,6 +708,69 @@ namespace ChineseWordGame
             //    default:
             //        break;
             //}
+        }
+
+        private void ReplayQuestionTo(int questionIndex)
+        {
+            m_currentLevel = questionIndex / Constants.QuestionPerLevel + 1;
+            m_currentQuestionIndex = questionIndex % Constants.QuestionPerLevel + 1;
+            ResetScoreImages();
+            pageTitle2.Text = Constants.ChineseNumbers[m_currentLevel - 1];
+
+            for (int j = 0; j < m_currentQuestionIndex - 1; j++)
+            {
+                int index = (m_currentLevel - 1) * Constants.QuestionPerLevel + j;
+                if (Global.QuestionAndAnswers[index].Answer == Global.QuestionAndAnswers[index].Question.CorrectAnswer)
+                {
+                    Utilities.SetImage(m_scoreImages[j], Resource1._true);
+                }
+                else
+                {
+                    Utilities.SetImage(m_scoreImages[j], Resource1._false);
+                }
+            }
+            m_currentQuestion = Global.QuestionAndAnswers[questionIndex].Question;
+            QuestionText.Text = string.Format(QuestionPrefixFormat, m_currentQuestionIndex) +
+                                m_currentQuestion.Text;
+            AnswerA.Content = "A. " + m_currentQuestion.Answers[0];
+            AnswerB.Content = "B. " + m_currentQuestion.Answers[1];
+            AnswerC.Content = "C. " + m_currentQuestion.Answers[2];
+            AnswerD.Content = "D. " + m_currentQuestion.Answers[3];
+
+            score.Text = Global.QuestionAndAnswers[questionIndex].CurrentScore.ToString();
+            SetAnswer(Global.QuestionAndAnswers[questionIndex].Answer);
+            
+        }
+
+        private void NextButton_Click(object sender, RoutedEventArgs e)
+        {
+            for (int i = (m_currentLevel - 1)*Constants.QuestionPerLevel + m_currentQuestionIndex;
+                 i < Global.QuestionAndAnswers.Count;
+                 i++)
+            {
+                if (Global.ReplayMode == ReplayMode.All || 
+                    (Global.ReplayMode == ReplayMode.Errors && Global.QuestionAndAnswers[i].Answer != Global.QuestionAndAnswers[i].Question.CorrectAnswer))
+                {
+                    ReplayQuestionTo(i);
+                    break;
+                }
+            }
+        }
+
+        private void PrevButton_Click(object sender, RoutedEventArgs e)
+        {
+            for (int i = (m_currentLevel - 1) * Constants.QuestionPerLevel + m_currentQuestionIndex - 2;
+                 i >= 0;
+                 i--)
+            {
+                if (Global.ReplayMode == ReplayMode.All ||
+                    (Global.ReplayMode == ReplayMode.Errors && Global.QuestionAndAnswers[i].Answer != Global.QuestionAndAnswers[i].Question.CorrectAnswer))
+                {
+                    ReplayQuestionTo(i);
+                    break;
+                }
+            }
+
         }
 
     }

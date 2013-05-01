@@ -25,5 +25,6 @@ namespace ChineseWordGame.Common
         public const int BaseScoreOfQuestion = 10;
         public const int TotalLevelCount = 8;
         public const int MaxScore = 2200;
+        public const int QuestionPerLevel = 10;
     }
 }

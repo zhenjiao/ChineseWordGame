@@ -20,6 +20,13 @@ namespace ChineseWordGame.Questions
         public int CorrectAnswer { get; set; }
     }
 
+    public class QuestionHistory
+    {
+        public CombinedQuestion Question { get; set; }
+        public int Answer { get; set; }
+        public int CurrentScore { get; set; }
+    }
+
     public class QuestionManager
     {
         private static readonly QuestionManager _instance = InitQuestionManager();

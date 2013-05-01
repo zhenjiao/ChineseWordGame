@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Threading;
 using ChineseWordGame.Common;
@@ -29,6 +32,16 @@ namespace ChineseWordGame
         public EndPage()
         {
             this.InitializeComponent();
+
+            var replayImgBrush = new ImageBrush();
+            Utilities.SetImage(replayImgBrush, Resource1.replay);
+            Replay.Content = "";
+            Replay.Background = replayImgBrush;
+            var replayErrorImgBrush = new ImageBrush();
+            Utilities.SetImage(replayErrorImgBrush, Resource1.replayError);
+            ReplayErrors.Content = "";
+            ReplayErrors.Background = replayErrorImgBrush;
+
             IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
             m_currentLevel = Convert.ToInt32(settings["currentLevel"]);
             m_currentScore = Convert.ToInt32(settings["currentScore"]);
@@ -128,6 +141,21 @@ namespace ChineseWordGame
 
         private void PlayAgain_Click(object sender, RoutedEventArgs e)
         {
+            Global.PlayMode = PlayMode.Normal;
+            NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+        }
+
+        private void Replay_Click(object sender, RoutedEventArgs e)
+        {
+            Global.PlayMode = PlayMode.Replay;
+            Global.ReplayMode = ReplayMode.All;
+            NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
+        }
+
+        private void ReplayErrors_Click(object sender, RoutedEventArgs e)
+        {
+            Global.PlayMode = PlayMode.Replay;
+            Global.ReplayMode = ReplayMode.Errors;
             NavigationService.Navigate(new Uri("/MainPage.xaml", UriKind.Relative));
         }
 

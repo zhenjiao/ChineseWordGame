@@ -67,7 +67,17 @@
                     <Button x:Name="AnswerB" Content="B. 洋，恶" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="{x:Null}" FontSize="28" Click="AnswerButton_Click" Foreground="White" Width="210" Canvas.Top="227" FontWeight="Normal" Canvas.Left="417" Style="{StaticResource ButtonStyle}"/>
                     <Button x:Name="AnswerC" Content="C. 洋洋，恶恶" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="{x:Null}" Width="210" FontSize="28" Click="AnswerButton_Click" Background="{x:Null}" Canvas.Top="304" Canvas.Left="196" FontWeight="Normal" Foreground="White" Style="{StaticResource ButtonStyle}"/>
                     <Button x:Name="AnswerD" Content="D. 洋，恶恶" HorizontalAlignment="Center" VerticalAlignment="Center" BorderBrush="{x:Null}" FontSize="28" Click="AnswerButton_Click" Width="210" Background="{x:Null}" Canvas.Left="417" Canvas.Top="304" FontWeight="Normal" Foreground="White" Style="{StaticResource ButtonStyle}"/>
-                    <TextBox x:Name="QuestionText" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Height="80" Width="432" Text="( _ )流不息" FontSize="32" Foreground="#FFECE21C" Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="0" IsEnabled="False" Canvas.Left="208" Canvas.Top="167" Style="{StaticResource ReadOnlyTextBoxStyle}"/>
+                    <Button x:Name="Next" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" Width="73" FontSize="28" Click="NextButton_Click" Canvas.Top="-95" Canvas.Left="496" FontWeight="Normal" FontFamily="Segoe UI" Foreground="#FF219ED8" Style="{StaticResource ButtonStyle}" Height="78" BorderThickness="1" BorderBrush="{x:Null}" ToolTipService.ToolTip="下一题">
+                        <Button.Background>
+                            <ImageBrush Stretch="Fill" ImageSource="/Assets/next.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name="Prev" Content="" HorizontalAlignment="Center" VerticalAlignment="Center" Width="73" FontSize="28" Click="PrevButton_Click" Canvas.Top="-97" Canvas.Left="420" FontWeight="Normal" FontFamily="Segoe UI" Foreground="#FF219ED8" Style="{StaticResource ButtonStyle}" Height="78" BorderThickness="1" BorderBrush="{x:Null}" ToolTipService.ToolTip="上一题" RenderTransformOrigin="0.836,0.487">
+                        <Button.Background>
+                            <ImageBrush Stretch="Fill" ImageSource="/Assets/prev.png"/>
+                        </Button.Background>
+                    </Button>
+                    <TextBox x:Name="QuestionText" HorizontalAlignment="Center" TextWrapping="Wrap" VerticalAlignment="Top" Height="80" Width="432" Text="( _ )流不息" FontSize="32" Foreground="#FFECE21C" Background="{x:Null}" BorderBrush="{StaticResource PhoneTextBoxSelectionForegroundBrush}" BorderThickness="0" IsEnabled="False" Canvas.Left="207" Canvas.Top="167" Style="{StaticResource ReadOnlyTextBoxStyle}"/>
                     <Button x:Name="levelUp" Height="60" Width="105" HorizontalAlignment="Center" Canvas.Left="632" Canvas.Top="324" BorderThickness="2" Click="levelUp_Click" ClickMode="Release" IsHitTestVisible="True" Foreground="#FF7CB0BF" Content="下一关" Background="{x:Null}" FontSize="16" ToolTipService.ToolTip="进入下一关" Visibility="Collapsed"/>
                 </Canvas>
             </Grid>
