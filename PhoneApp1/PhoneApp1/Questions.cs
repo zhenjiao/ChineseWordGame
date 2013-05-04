@@ -1093,7 +1093,7 @@ namespace ChineseWordGame.Questions
                     {new Question() { Text = "天翻地(_)", TrueAnswer = "覆", FalseAnswer = "复", Level = 1, }},
                     {new Question() { Text = "一(_)作气", TrueAnswer = "鼓", FalseAnswer = "股", Level = 1, }},
                     {new Question() { Text = "悬梁刺(_)", TrueAnswer = "股", FalseAnswer = "骨", Level = 1, }},
-                    {new Question() { Text = "食不(_)腹", TrueAnswer = "裹", FalseAnswer = "果", Level = 1, }},
+                    {new Question() { Text = "食不(_)腹", TrueAnswer = "果", FalseAnswer = "裹", Level = 1, }},
                     {new Question() { Text = "震(_)人心", TrueAnswer = "撼", FalseAnswer = "憾", Level = 1, }},
                     {new Question() { Text = "一如(_)往", TrueAnswer = "既", FalseAnswer = "继", Level = 1, }},
                     {new Question() { Text = "(_)揉造作", TrueAnswer = "矫", FalseAnswer = "娇", Level = 1, }},

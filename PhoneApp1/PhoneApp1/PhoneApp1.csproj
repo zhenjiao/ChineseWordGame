@@ -60,6 +60,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -99,8 +100,12 @@
     </Content>
     <Content Include="Assets\false.png" />
     <Content Include="Assets\Logo.png" />
+    <None Include="Assets\next.png" />
     <Content Include="Assets\night.jpg" />
     <Content Include="Assets\night_vertical.jpg" />
+    <None Include="Assets\prev.png" />
+    <None Include="Assets\replay.png" />
+    <None Include="Assets\replayError.png" />
     <Content Include="Assets\SmallLogo.png" />
     <Content Include="Assets\snap.jpg" />
     <Content Include="Assets\SplashScreen.png" />
@@ -110,6 +115,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\false.png" />
+    <None Include="Resources\1.png" />
     <Content Include="SplashScreenImage.jpg" />
   </ItemGroup>
   <ItemGroup>

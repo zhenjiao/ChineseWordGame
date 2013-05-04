@@ -315,7 +315,7 @@ namespace ChineseWordGame
             }
             m_answerButtons[m_currentQuestion.CorrectAnswer].Foreground = new SolidColorBrush(Colors.Orange);
             m_answerButtons[m_currentQuestion.CorrectAnswer].Content = "☆." + m_currentQuestion.Answers[m_currentQuestion.CorrectAnswer];
-            if (result != m_currentQuestion.CorrectAnswer)
+            if (result != -1 && result != m_currentQuestion.CorrectAnswer)
             {
                 m_answerButtons[result].Foreground = new SolidColorBrush(Colors.DarkGray);
                 m_answerButtons[result].Content = "△." + m_currentQuestion.Answers[result];
