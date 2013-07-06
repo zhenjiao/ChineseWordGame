@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tomcatProjectProperties>
+    <rootDir>/gameServer</rootDir>
+    <exportSource>false</exportSource>
+    <reloadable>true</reloadable>
+    <redirectLogger>false</redirectLogger>
+    <updateXml>true</updateXml>
+    <warLocation>C:\zhen\workspace\git\games\gameServer\gameServer.war</warLocation>
+    <extraInfo></extraInfo>
+    <webPath></webPath>
+</tomcatProjectProperties>

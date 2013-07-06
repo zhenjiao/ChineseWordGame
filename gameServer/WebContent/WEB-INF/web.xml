@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>gameServer</display-name>
+ <servlet>
+  <description>Add new game type to DB</description>
+  <display-name>Add game type</display-name>
+  <servlet-name>AddGameTypeAction</servlet-name>
+  <servlet-class>com.zgs.servlet.AddGameTypeAction</servlet-class>
+ </servlet>
+ <servlet>
+  <description>Add new game result to DB</description>
+  <display-name>Add game result</display-name>
+  <servlet-name>AddGameResultAction</servlet-name>
+  <servlet-class>com.zgs.servlet.AddGameResultAction</servlet-class>
+ </servlet>
+ <servlet>
+  <description>Get top game scores</description>
+  <display-name>Get top game scores</display-name>
+  <servlet-name>GetTopScores</servlet-name>
+  <servlet-class>com.zgs.servlet.GetTopScores</servlet-class>
+ </servlet>
+ <servlet-mapping>
+  <servlet-name>AddGameTypeAction</servlet-name>
+  <url-pattern>/AddGameTypeAction</url-pattern>
+ </servlet-mapping>
+ <servlet-mapping>
+  <servlet-name>AddGameResultAction</servlet-name>
+  <url-pattern>/AddGameResultAction</url-pattern>
+ </servlet-mapping>
+ <servlet-mapping>
+  <servlet-name>GetTopScores</servlet-name>
+  <url-pattern>/GetTopScores</url-pattern>
+ </servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+<context-param> 
+  <param-name>log4jConfigLocation</param-name> 
+  <param-value>/WEB-INF/classes/log4j.properties</param-value> 
+   </context-param> 
+ <listener> 
+  <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class> 
+ </listener></web-app>
