@@ -28,7 +28,8 @@ import com.zgs.dao.GameTypeDAO;
 
 public class AddGameResultActionTest {
 
-	private static final String serverUrl = "http://localhost:8080/gameServer";
+	private static final String serverUrl = "http://ec2-54-251-222-148.ap-southeast-1.compute.amazonaws.com:8080/gameServer";
+	//private static final String serverUrl = "http://localhost:8080/gameServer";
 
 	@Before
 	public void setUp() throws Exception {
@@ -242,6 +243,7 @@ public class AddGameResultActionTest {
 								String requestString = BuildRequestStringForAddGameType(gamename);
 								URL url = new URL(serverUrl + "/AddGameTypeAction?" + requestString);
 								URLConnection connection = url.openConnection();
+								connection.setConnectTimeout(60000);
 								connection.connect();
 								verifyResponseForAddGameType(connection);
 
@@ -255,6 +257,7 @@ public class AddGameResultActionTest {
 										"test", score, level, duration);
 								url = new URL(serverUrl + "/AddGameResultAction?" + requestString);
 								connection = url.openConnection();
+								connection.setConnectTimeout(60000);
 								connection.connect();
 								verifyResponseForAddGameResult(connection, 1);
 
@@ -266,6 +269,7 @@ public class AddGameResultActionTest {
 										"test", score, level, duration);
 								url = new URL(serverUrl + "/AddGameResultAction?" + requestString);
 								connection = url.openConnection();
+								connection.setConnectTimeout(60000);
 								connection.connect();
 								verifyResponseForAddGameResult(connection, 1);
 
@@ -277,6 +281,7 @@ public class AddGameResultActionTest {
 										"test", score, level, duration);
 								url = new URL(serverUrl + "/AddGameResultAction?" + requestString);
 								connection = url.openConnection();
+								connection.setConnectTimeout(60000);
 								connection.connect();
 								verifyResponseForAddGameResult(connection, 1);
 
@@ -289,6 +294,7 @@ public class AddGameResultActionTest {
 										"test", score, level, duration);
 								url = new URL(serverUrl + "/AddGameResultAction?" + requestString);
 								connection = url.openConnection();
+								connection.setConnectTimeout(60000);
 								connection.connect();
 								verifyResponseForAddGameResult(connection, 1);
 
@@ -301,6 +307,7 @@ public class AddGameResultActionTest {
 										"test", score, level, duration);
 								url = new URL(serverUrl + "/AddGameResultAction?" + requestString);
 								connection = url.openConnection();
+								connection.setConnectTimeout(60000);
 								connection.connect();
 								verifyResponseForAddGameResult(connection, 3);
 
@@ -312,6 +319,7 @@ public class AddGameResultActionTest {
 										"test", score, level, duration);
 								url = new URL(serverUrl + "/AddGameResultAction?" + requestString);
 								connection = url.openConnection();
+								connection.setConnectTimeout(60000);
 								connection.connect();
 								verifyResponseForAddGameResult(connection, 5);
 
@@ -323,6 +331,7 @@ public class AddGameResultActionTest {
 										"test", score, level, duration);
 								url = new URL(serverUrl + "/AddGameResultAction?" + requestString);
 								connection = url.openConnection();
+								connection.setConnectTimeout(60000);
 								connection.connect();
 								verifyResponseForAddGameResult(connection, 7);
 							} catch (IOException e) {

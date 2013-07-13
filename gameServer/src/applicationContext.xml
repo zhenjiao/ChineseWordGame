@@ -16,6 +16,9 @@
 			<value>root</value>
 			<!-- <value>xiaoguo</value> -->
 		</property>
+		<property name="password">
+			<value>secret</value>
+		</property>
 	</bean>
 	
 	<!--Redefine jdbcTemplate-->
